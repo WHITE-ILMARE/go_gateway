@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"net"
 	"net/http"
 	"strings"
@@ -14,9 +13,18 @@ import (
 type Pxy struct{}
 
 func (p *Pxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	/**
+	req.remoteAddr表示发出请求的远程主机的IP地址，代表客户端的IP，是服务端根据客户端的IP指定的；
+	本例中就是发起http请求的地址，访问http://tianya.cn后，发现都是如下格式：
+	127.0.0.1:56227
+	127.0.0.1:56736
+	...
+	我理解应该是对于一个标签页访问一个页面，浏览器开了很多http连接请求，用了很多端口
+	*/
 	fmt.Printf("Received request %s %s %s\n", req.Method, req.Host, req.RemoteAddr)
+	// 数据连接池
 	transport := http.DefaultTransport
-	// step1: 浅拷贝对象，然后再新增属性数据
+	// step1: 浅拷贝对象，然后再新增属性数据，避免影响
 	outReq := new(http.Request)
 	*outReq = *req
 	// req.RemoteAddr的格式：IP:Port，是http请求发起方的地址
@@ -39,11 +47,13 @@ func (p *Pxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	// step3:把下游响应返回给上游
 	for key, value := range res.Header {
 		for _, v := range value {
-			// 把下游响应的Header头内容加到给上游的响应中
+			// 写响应头字段
 			rw.Header().Add(key, v)
 		}
 	}
+	// 写响应状态码
 	rw.WriteHeader(res.StatusCode)
+	// 写响应体
 	io.Copy(rw, res.Body)
 	res.Body.Close()
 }
@@ -53,6 +63,12 @@ func handleHelloWorld(w http.ResponseWriter, _ *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handleHelloWorld)
-	log.Fatal(http.ListenAndServe(":4321", nil))
+	fmt.Println("Serve on :8080")
+	http.Handle("/", &Pxy{})
+	/**
+	服务器上，0.0.0.0代表本机上所有IPV4地址，若一个主机有两个IP地址，若主机上有一监听0.0.0.0的服务，那么两个IP都能访问该服务
+	路由中，0.0.0.0代表默认路由；
+	本例中，启动的服务监听本机上所有请求
+	*/
+	http.ListenAndServe("0.0.0.0:8080", nil)
 }
