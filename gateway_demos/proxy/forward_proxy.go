@@ -32,6 +32,10 @@ func (p *Pxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		// XFF格式：ClientIP, proxy1, proxy2
 		if prior, ok := outReq.Header["X-Forwarded-For"]; ok {
 			//没太懂，prior是数组吗？为何把clientIP续在最后
+			// 解释：可以轻易地查看Header是map[string][]string类型，所以其value都是字符串数组
+			// 但是Set时传的key、value都是string，查看Set方法源码得知，背后是将字符串外面套了个数组而已
+			// 所以此处取prior[0]亦可
+			fmt.Printf("prior=%v\n", prior)
 			clientIP = strings.Join(prior, ", ") + ", " + clientIP
 		}
 		outReq.Header.Set("X-Forwarded-For", clientIP)
