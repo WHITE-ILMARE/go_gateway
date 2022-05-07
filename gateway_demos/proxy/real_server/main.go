@@ -57,7 +57,11 @@ func (r *RealServer) run() {
 func (r *RealServer) HelloHandler(w http.ResponseWriter, req *http.Request) {
 	// 若请求地址为127.0.0.1/abc?q=1，r.Addr为127.0.0.1, Path为/abc
 	upath := fmt.Sprintf("Hello from http://%s%s\n", r.Addr, req.URL.Path)
+
+	// 细节是RemoteAddr是在req中内置的字段，而XFF和X-Real-IP是自定义的，只能从Header里取
+	realIP := fmt.Sprintf("RemoteAddr=%s,X-Forwarded-For=%v,X-Real-IP=%v\n", req.RemoteAddr, req.Header.Get("X-Forwarded-For"), req.Header.Get("X-Real-IP"))
 	io.WriteString(w, upath)
+	io.WriteString(w, realIP)
 }
 
 func (r *RealServer) ErrorHandler(w http.ResponseWriter, req *http.Request) {
