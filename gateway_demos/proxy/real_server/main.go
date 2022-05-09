@@ -31,7 +31,7 @@ func main() {
 }
 
 type RealServer struct {
-	Addr string
+	Addr string // server要保存自己的addr，供后续使用
 }
 
 func (r *RealServer) run() {
