@@ -5,6 +5,7 @@ import (
 	"math/rand"
 )
 
+// RandomBalance 实现随机负载均衡
 type RandomBalance struct {
 	curIndex int
 	// 目标服务器数组
