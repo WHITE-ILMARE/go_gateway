@@ -9,6 +9,7 @@ import (
 )
 
 func DefaultGetValidParams(c *gin.Context, params interface{}) error {
+	// 将参数转化为params
 	if err := c.ShouldBind(params); err != nil {
 		return err
 	}

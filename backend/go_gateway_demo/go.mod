@@ -30,7 +30,7 @@ require (
 	golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6 // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.0
-	gorm.io/gorm v1.22.4
+	gorm.io/gorm v1.22.4 // indirect
 )
 
 replace github.com/gin-contrib/sse v0.1.0 => github.com/e421083458/sse v0.1.1

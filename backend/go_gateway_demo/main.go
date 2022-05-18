@@ -8,7 +8,22 @@ import (
 	"syscall"
 )
 
+// @title        网关API
+// @version      1.0
+// @description  网关API接口文档
+
+// @contact.name   WHITE-ILMARE
+// @contact.url    https://github.com/WHITE-ILMARE
+// @contact.email  2480800244@qq.com
+
+// @license.name  Apach 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8880
+// @BasePath  /
+
 func main() {
+
 	lib.InitModule("./conf/dev/", []string{"base", "mysql", "redis"})
 	defer lib.Destroy()
 	router.HttpServerRun()

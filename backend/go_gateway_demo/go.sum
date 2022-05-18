@@ -46,6 +46,8 @@ github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZm
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
 github.com/e421083458/golang_common v1.2.1 h1:GKHTwlpde2InRCRsc2q3ue4rKmEffHfH2YY9vyliXvw=
 github.com/e421083458/golang_common v1.2.1/go.mod h1:ut0mYTl+JC8/c39fTVx51V1NPNF37khAgE9bcd0MVPk=
+github.com/e421083458/gorm v1.0.1 h1:xP3phpVGFa/HUXFK/9UlvVohvrDFdhTZF12XKK+1tJQ=
+github.com/e421083458/gorm v1.0.1/go.mod h1:fKRc3akGVO0fLrVXYIVFtIrDniw2IASHwTJNnffphJg=
 github.com/e421083458/sse v0.1.1 h1:gvCOCgxw3BQ8ps5FohmSaP7OaTZwStK9+5qRQMRxGDA=
 github.com/e421083458/sse v0.1.1/go.mod h1:CSS4w4zFC88opO4oEy1WLMjRe4GzMeEPYB6QkxwAsL8=
 github.com/eapache/go-resiliency v1.1.0/go.mod h1:kFI+JgMyC7bLPUVY133qvEBtVayf5mFgVsvEsIPBvNs=
