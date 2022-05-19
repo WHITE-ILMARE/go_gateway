@@ -75,8 +75,11 @@ func (t *ServiceInfo) ServiceDetail(tx *gorm.DB, search *ServiceInfo) (*ServiceD
 }
 
 func (t *ServiceInfo) Find(tx *gorm.DB, search *ServiceInfo) (*ServiceInfo, error) {
+	//fmt.Printf("search condition: %+v\n", search)
 	out := &ServiceInfo{}
-	err := tx.Where(search).Find(out).Error
+	err := tx.Where(search).First(out).Error
+	//fmt.Printf("found: %+v\n", out)
+	//fmt.Printf("err: %v\n", err)
 	if err != nil {
 		return nil, err
 	}

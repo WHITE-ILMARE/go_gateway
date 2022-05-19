@@ -162,21 +162,38 @@ func (serviceController *ServiceController) ServiceAddHTTP(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	serviceInfo := &dao.ServiceInfo{}
+	tx = tx.Begin()
+	serviceInfo := &dao.ServiceInfo{ServiceName: params.ServiceName}
+	// 按ServiceName查询
 	if _, err = serviceInfo.Find(tx, serviceInfo); err == nil {
+		tx.Rollback()
 		middleware.ResponseError(ctx, 2002, errors.New("服务已存在"))
 		return
 	}
 	// 基于数据库的校验
 	httpUrl := &dao.HttpRule{RuleType: params.RuleType, Rule: params.Rule}
 	if _, err := httpUrl.Find(tx, httpUrl); err == nil {
+		tx.Rollback()
 		middleware.ResponseError(ctx, 2003, errors.New("服务接入前缀或域名已存在"))
 		return
 	}
 	// 跨字段的校验
 	if len(strings.Split(params.IpList, "\n")) != len(strings.Split(params.WeightList, "\n")) {
+		tx.Rollback()
 		middleware.ResponseError(ctx, 2004, errors.New("IP列表与权重列表数量不一致"))
 		return
 	}
+	// 先向service_info表存，并取得新插入条目的ID
+	serviceModel := &dao.ServiceInfo{
+		ServiceName: params.ServiceName,
+		ServiceDesc: params.ServiceDesc,
+	}
+	if err := serviceModel.Save(tx); err != nil {
+		tx.Rollback()
+		middleware.ResponseError(ctx, 2005, err)
+		return
+	}
+	// 此时已经可以拿到ID
+
 	middleware.ResponseSuccess(ctx, "")
 }

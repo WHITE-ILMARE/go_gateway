@@ -22,7 +22,7 @@ func (s *HttpRule) TableName() string {
 
 func (t *HttpRule) Find(tx *gorm.DB, search *HttpRule) (*HttpRule, error) {
 	model := &HttpRule{}
-	err := tx.Where(search).Find(model).Error
+	err := tx.Where(search).First(model).Error
 	if err != nil {
 		return nil, err
 	}

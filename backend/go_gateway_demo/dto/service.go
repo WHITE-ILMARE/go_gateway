@@ -32,20 +32,24 @@ type ServiceDeleteInput struct {
 }
 
 type ServiceAddHTTPInput struct {
-	ServiceName            string `json:"service_name" form:"service_name" comment:"服务名"  validate:"required,valid_service_name"`            // 服务名
-	ServiceDesc            string `json:"service_desc" form:"service_desc" comment:"服务描述"  validate:"required,max=255,min=1"`                // 服务描述
-	RuleType               int    `json:"rule_type" form:"rule_type" comment:"接入类型"  validate:"max=1,min=0"`                                 // 接入类型
-	Rule                   string `json:"rule" form:"rule" comment:"接入路径，域名或前缀"  validate:"required,valid_rule"`                             // 接入路径，域名或前缀
-	NeedHttps              int    `json:"need_https" form:"need_https" comment:"支持https"  validate:""`                                       // 支持https
-	NeedStripUri           int    `json:"need_strip_uri" form:"need_strip_uri" comment:"启用strip_uri"  validate:""`                           // 启用strip_uri
-	NeedWebsocket          int    `json:"need_websocket" form:"need_websocket" comment:"是否支持websocket"  validate:"max=1,min=0"`              // 是否支持websocket
-	UrlRewrite             string `json:"url_rewrite" form:"url_rewrite" comment:"url重写功能"  validate:"valid_url_rewrite"`                    // url重写功能
-	HeaderTransfor         string `json:"header_transfor" form:"header_transfor" comment:"header转换支持"  validate:"valid_header_transfor"`     // header转换支持
-	OpenAuth               int    `json:"open_auth" form:"open_auth" comment:"是否开启权限"  validate:"max=1,min=0"`                               // 是否开启权限
-	BlackList              string `json:"black_list" form:"black_list" comment:"黑名单ip"  validate:""`                                         // 黑名单ip
-	WhiteList              string `json:"white_list" form:"white_list" comment:"白名单ip"  validate:""`                                         // 白名单ip
-	ClientIPFlowLimit      int    `json:"clientip_flow_limit" form:"clientip_flow_limit" comment:"客户端ip限流"  validate:"min=0"`                // 客户端ip限流
-	ServiceFlowLimit       int    `json:"service_flow_limit" form:"service_flow_limit" comment:"服务端ip限流"  validate:"min=0"`                  // 服务端ip限流
+	// gateway_service_info表字段
+	ServiceName string `json:"service_name" form:"service_name" comment:"服务名"  validate:"required,valid_service_name"` // 服务名
+	ServiceDesc string `json:"service_desc" form:"service_desc" comment:"服务描述"  validate:"required,max=255,min=1"`     // 服务描述
+	// gateway_service_http_rule表字段
+	RuleType       int    `json:"rule_type" form:"rule_type" comment:"接入类型"  validate:"max=1,min=0"`                             // 接入类型
+	Rule           string `json:"rule" form:"rule" comment:"接入路径，域名或前缀"  validate:"required,valid_rule"`                         // 接入路径，域名或前缀
+	NeedHttps      int    `json:"need_https" form:"need_https" comment:"支持https"  validate:""`                                   // 支持https
+	NeedStripUri   int    `json:"need_strip_uri" form:"need_strip_uri" comment:"启用strip_uri"  validate:""`                       // 启用strip_uri
+	NeedWebsocket  int    `json:"need_websocket" form:"need_websocket" comment:"是否支持websocket"  validate:"max=1,min=0"`          // 是否支持websocket
+	UrlRewrite     string `json:"url_rewrite" form:"url_rewrite" comment:"url重写功能"  validate:"valid_url_rewrite"`                // url重写功能
+	HeaderTransfor string `json:"header_transfor" form:"header_transfor" comment:"header转换支持"  validate:"valid_header_transfor"` // header转换支持
+	// 权限控制相关
+	OpenAuth          int    `json:"open_auth" form:"open_auth" comment:"是否开启权限"  validate:"max=1,min=0"`                // 是否开启权限
+	BlackList         string `json:"black_list" form:"black_list" comment:"黑名单ip"  validate:""`                          // 黑名单ip
+	WhiteList         string `json:"white_list" form:"white_list" comment:"白名单ip"  validate:""`                          // 白名单ip
+	ClientIPFlowLimit int    `json:"clientip_flow_limit" form:"clientip_flow_limit" comment:"客户端ip限流"  validate:"min=0"` // 客户端ip限流
+	ServiceFlowLimit  int    `json:"service_flow_limit" form:"service_flow_limit" comment:"服务端ip限流"  validate:"min=0"`   // 服务端ip限流
+	// 负载均衡相关
 	RoundType              int    `json:"round_type" form:"round_type" comment:"轮询方式"  validate:"max=3,min=0"`                               // 轮询方式
 	IpList                 string `json:"ip_list" form:"ip_list" comment:"服务ip列表"  validate:"required,valid_iplist"`                         // 服务ip列表
 	WeightList             string `json:"weight_list" form:"weight_list" comment:"权重列表"  validate:"required,valid_weight_list"`              // 权重列表
