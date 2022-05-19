@@ -194,6 +194,52 @@ func (serviceController *ServiceController) ServiceAddHTTP(ctx *gin.Context) {
 		return
 	}
 	// 此时已经可以拿到ID
-
+	httpRule := &dao.HttpRule{
+		ServiceID:      serviceModel.ID,
+		RuleType:       params.RuleType,
+		Rule:           params.Rule,
+		NeedHttps:      params.NeedHttps,
+		NeedStripUri:   params.NeedStripUri,
+		NeedWebsocket:  params.NeedWebsocket,
+		UrlRewrite:     params.UrlRewrite,
+		HeaderTransfor: params.HeaderTransfor,
+	}
+	// http_rule表创建完毕
+	if err := httpRule.Save(tx); err != nil {
+		tx.Rollback()
+		middleware.ResponseError(ctx, 2006, err)
+		return
+	}
+	// 接下来处理权限控制表
+	accessControl := &dao.AccessControl{
+		ServiceID:         serviceModel.ID,
+		OpenAuth:          params.OpenAuth,
+		BlackList:         params.BlackList,
+		WhiteList:         params.WhiteList,
+		ClientIPFlowLimit: params.ClientIPFlowLimit,
+		ServiceFlowLimit:  params.ServiceFlowLimit,
+	}
+	if err = accessControl.Save(tx); err != nil {
+		tx.Rollback()
+		middleware.ResponseError(ctx, 2007, err)
+		return
+	}
+	// 接下来插入load-balance表
+	loadBalance := &dao.LoadBalance{
+		ServiceID:              serviceModel.ID,
+		RoundType:              params.RoundType,
+		IpList:                 params.IpList,
+		WeightList:             params.WeightList,
+		UpstreamConnectTimeout: params.UpstreamConnectTimeout,
+		UpstreamHeaderTimeout:  params.UpstreamHeaderTimeout,
+		UpstreamIdleTimeout:    params.UpstreamIdleTimeout,
+		UpstreamMaxIdle:        params.UpstreamMaxIdle,
+	}
+	if err = loadBalance.Save(tx); err != nil {
+		tx.Rollback()
+		middleware.ResponseError(ctx, 2008, err)
+		return
+	}
+	tx.Commit()
 	middleware.ResponseSuccess(ctx, "")
 }

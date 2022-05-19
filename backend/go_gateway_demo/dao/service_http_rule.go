@@ -5,8 +5,8 @@ import (
 )
 
 type HttpRule struct {
-	ID             int64  `json:"id" gorm:"primary_key"`
-	ServiceID      int64  `json:"service_id" gorm:"column:service_id" description:"服务ID"`
+	ID             int    `json:"id" gorm:"primary_key"`
+	ServiceID      int    `json:"service_id" gorm:"column:service_id" description:"服务ID"`
 	RuleType       int    `json:"rule_type" gorm:"column:rule_type" description:"type=domain表示域名，type=url_prefix表示url前缀"`
 	Rule           string `json:"rule" gorm:"column:rule" description:"type=domain表示域名，type=url_prefix表示url前缀"`
 	NeedHttps      int    `json:"need_https" gorm:"column:need_https" description:"type=1 支持https"`

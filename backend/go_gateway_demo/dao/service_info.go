@@ -37,27 +37,27 @@ func (t *ServiceInfo) PageList(tx *gorm.DB, param *dto.ServiceListInput) ([]Serv
 }
 
 func (t *ServiceInfo) ServiceDetail(tx *gorm.DB, search *ServiceInfo) (*ServiceDetail, error) {
-	httpRule := &HttpRule{ServiceID: int64(search.ID)}
+	httpRule := &HttpRule{ServiceID: search.ID}
 	httpRule, err := httpRule.Find(tx, httpRule)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	tcpRule := &TcpRule{ServiceID: int64(search.ID)}
+	tcpRule := &TcpRule{ServiceID: search.ID}
 	tcpRule, err = tcpRule.Find(tx, tcpRule)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	grpcRule := &GrpcRule{ServiceID: int64(search.ID)}
+	grpcRule := &GrpcRule{ServiceID: search.ID}
 	grpcRule, err = grpcRule.Find(tx, grpcRule)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	accessControl := &AccessControl{ServiceID: int64(search.ID)}
+	accessControl := &AccessControl{ServiceID: int(search.ID)}
 	accessControl, err = accessControl.Find(tx, accessControl)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	loadBalance := &LoadBalance{ServiceID: int64(search.ID)}
+	loadBalance := &LoadBalance{ServiceID: int(search.ID)}
 	loadBalance, err = loadBalance.Find(tx, loadBalance)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err

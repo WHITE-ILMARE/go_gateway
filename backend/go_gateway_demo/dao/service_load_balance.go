@@ -6,8 +6,8 @@ import (
 )
 
 type LoadBalance struct {
-	ID                     int64  `json:"id" gorm:"primary_key"`
-	ServiceID              int64  `json:"service_id" gorm:"column:service_id" description:"服务ID"`
+	ID                     int    `json:"id" gorm:"primary_key"`
+	ServiceID              int    `json:"service_id" gorm:"column:service_id" description:"服务ID"`
 	CheckMethod            int    `json:"check_method" gorm:"column:check_method" description:"检查方法 tcpchk=检测端口是否握手成功"`
 	CheckTimeout           int    `json:"check_timeout" gorm:"column:check_timeout" description:"check超时时间"`
 	CheckInterval          int    `json:"check_interval" gorm:"column:check_interval" description:"检查间隔，单位s"`

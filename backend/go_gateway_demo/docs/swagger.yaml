@@ -73,12 +73,12 @@ definitions:
         minimum: 0
         type: integer
       open_auth:
-        description: 是否开启权限
+        description: 权限控制相关
         maximum: 1
         minimum: 0
         type: integer
       round_type:
-        description: 轮询方式
+        description: 负载均衡相关
         maximum: 3
         minimum: 0
         type: integer
@@ -86,7 +86,7 @@ definitions:
         description: 接入路径，域名或前缀
         type: string
       rule_type:
-        description: 接入类型
+        description: gateway_service_http_rule表字段
         maximum: 1
         minimum: 0
         type: integer
@@ -100,7 +100,7 @@ definitions:
         minimum: 0
         type: integer
       service_name:
-        description: 服务名
+        description: gateway_service_info表字段
         type: string
       upstream_connect_timeout:
         description: 建立连接超时，单位s

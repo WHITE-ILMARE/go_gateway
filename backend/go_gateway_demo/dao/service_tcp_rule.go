@@ -5,9 +5,9 @@ import (
 )
 
 type TcpRule struct {
-	ID        int64 `json:"id" gorm:"primary_key"`
-	ServiceID int64 `json:"service_id" gorm:"column:service_id" description:"服务ID"`
-	Port      int   `json:"port" gorm:"column:port" description:"端口"`
+	ID        int `json:"id" gorm:"primary_key"`
+	ServiceID int `json:"service_id" gorm:"column:service_id" description:"服务ID"`
+	Port      int `json:"port" gorm:"column:port" description:"端口"`
 }
 
 func (s *TcpRule) TableName() string {

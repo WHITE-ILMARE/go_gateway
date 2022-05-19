@@ -436,13 +436,13 @@ const docTemplate = `{
                     "minimum": 0
                 },
                 "open_auth": {
-                    "description": "是否开启权限",
+                    "description": "权限控制相关",
                     "type": "integer",
                     "maximum": 1,
                     "minimum": 0
                 },
                 "round_type": {
-                    "description": "轮询方式",
+                    "description": "负载均衡相关",
                     "type": "integer",
                     "maximum": 3,
                     "minimum": 0
@@ -452,7 +452,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "rule_type": {
-                    "description": "接入类型",
+                    "description": "gateway_service_http_rule表字段",
                     "type": "integer",
                     "maximum": 1,
                     "minimum": 0
@@ -469,7 +469,7 @@ const docTemplate = `{
                     "minimum": 0
                 },
                 "service_name": {
-                    "description": "服务名",
+                    "description": "gateway_service_info表字段",
                     "type": "string"
                 },
                 "upstream_connect_timeout": {
