@@ -2,7 +2,7 @@ package lib
 
 import (
 	"fmt"
-	dlog "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/log"
+	dlog "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/log"
 	"strings"
 )
 

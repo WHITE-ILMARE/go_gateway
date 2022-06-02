@@ -1,9 +1,9 @@
 package controller
 
 import (
+	lib2 "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dao"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dto"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/public"
 	"github.com/gin-gonic/gin"
@@ -44,7 +44,7 @@ func (admin *APPController) APPList(c *gin.Context) {
 		return
 	}
 	info := &dao.App{}
-	list, total, err := info.APPList(c, lib.GORMDefaultPool, params)
+	list, total, err := info.APPList(c, lib2.GORMDefaultPool, params)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
 		return
@@ -97,7 +97,7 @@ func (admin *APPController) APPDetail(c *gin.Context) {
 	search := &dao.App{
 		ID: params.ID,
 	}
-	detail, err := search.Find(c, lib.GORMDefaultPool, search)
+	detail, err := search.Find(c, lib2.GORMDefaultPool, search)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
 		return
@@ -125,13 +125,13 @@ func (admin *APPController) APPDelete(c *gin.Context) {
 	search := &dao.App{
 		ID: params.ID,
 	}
-	info, err := search.Find(c, lib.GORMDefaultPool, search)
+	info, err := search.Find(c, lib2.GORMDefaultPool, search)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
 		return
 	}
 	info.IsDelete = 1
-	if err := info.Save(c, lib.GORMDefaultPool); err != nil {
+	if err := info.Save(c, lib2.GORMDefaultPool); err != nil {
 		middleware.ResponseError(c, 2003, err)
 		return
 	}
@@ -160,14 +160,14 @@ func (admin *APPController) AppAdd(c *gin.Context) {
 	search := &dao.App{
 		AppID: params.AppID,
 	}
-	if _, err := search.Find(c, lib.GORMDefaultPool, search); err == nil {
+	if _, err := search.Find(c, lib2.GORMDefaultPool, search); err == nil {
 		middleware.ResponseError(c, 2002, errors.New("租户ID被占用，请重新输入"))
 		return
 	}
 	if params.Secret == "" {
 		params.Secret = public.MD5(params.AppID)
 	}
-	tx := lib.GORMDefaultPool
+	tx := lib2.GORMDefaultPool
 	info := &dao.App{
 		AppID:    params.AppID,
 		Name:     params.Name,
@@ -203,7 +203,7 @@ func (admin *APPController) AppUpdate(c *gin.Context) {
 	search := &dao.App{
 		ID: params.ID,
 	}
-	info, err := search.Find(c, lib.GORMDefaultPool, search)
+	info, err := search.Find(c, lib2.GORMDefaultPool, search)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
 		return
@@ -216,7 +216,7 @@ func (admin *APPController) AppUpdate(c *gin.Context) {
 	info.WhiteIPS = params.WhiteIPS
 	info.Qps = params.Qps
 	info.Qpd = params.Qpd
-	if err := info.Save(c, lib.GORMDefaultPool); err != nil {
+	if err := info.Save(c, lib2.GORMDefaultPool); err != nil {
 		middleware.ResponseError(c, 2003, err)
 		return
 	}
@@ -244,7 +244,7 @@ func (admin *APPController) AppStatistics(c *gin.Context) {
 	search := &dao.App{
 		ID: params.ID,
 	}
-	detail, err := search.Find(c, lib.GORMDefaultPool, search)
+	detail, err := search.Find(c, lib2.GORMDefaultPool, search)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
 		return
@@ -259,8 +259,8 @@ func (admin *APPController) AppStatistics(c *gin.Context) {
 		return
 	}
 	currentTime := time.Now()
-	for i := 0; i <= time.Now().In(lib.TimeLocation).Hour(); i++ {
-		dateTime := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), i, 0, 0, 0, lib.TimeLocation)
+	for i := 0; i <= time.Now().In(lib2.TimeLocation).Hour(); i++ {
+		dateTime := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), i, 0, 0, 0, lib2.TimeLocation)
 		hourData, _ := counter.GetHourData(dateTime)
 		todayStat = append(todayStat, hourData)
 	}
@@ -269,7 +269,7 @@ func (admin *APPController) AppStatistics(c *gin.Context) {
 	yesterdayStat := []int64{}
 	yesterTime := currentTime.Add(-1 * time.Duration(time.Hour*24))
 	for i := 0; i <= 23; i++ {
-		dateTime := time.Date(yesterTime.Year(), yesterTime.Month(), yesterTime.Day(), i, 0, 0, 0, lib.TimeLocation)
+		dateTime := time.Date(yesterTime.Year(), yesterTime.Month(), yesterTime.Day(), i, 0, 0, 0, lib2.TimeLocation)
 		hourData, _ := counter.GetHourData(dateTime)
 		yesterdayStat = append(yesterdayStat, hourData)
 	}

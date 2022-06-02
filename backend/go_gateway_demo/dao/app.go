@@ -1,8 +1,8 @@
 package dao
 
 import (
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dto"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http/httptest"

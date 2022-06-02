@@ -1,9 +1,9 @@
 package controller
 
 import (
+	lib2 "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dao"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dto"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/public"
 	"github.com/gin-gonic/gin"
@@ -30,7 +30,7 @@ func DashboardRegister(group *gin.RouterGroup) {
 // @Success 200 {object} middleware.Response{data=dto.PanelGroupDataOutput} "success"
 // @Router /dashboard/panel_group_data [get]
 func (service *DashboardController) PanelGroupData(c *gin.Context) {
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(c, 2001, err)
 		return
@@ -71,7 +71,7 @@ func (service *DashboardController) PanelGroupData(c *gin.Context) {
 // @Success 200 {object} middleware.Response{data=dto.DashServiceStatOutput} "success"
 // @Router /dashboard/service_stat [get]
 func (service *DashboardController) ServiceStat(c *gin.Context) {
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(c, 2001, err)
 		return
@@ -117,7 +117,7 @@ func (service *DashboardController) FlowStat(c *gin.Context) {
 	var todayList []int
 	currentTime := time.Now()
 	for i := 0; i <= currentTime.Hour(); i++ {
-		dateTime := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), i, 0, 0, 0, lib.TimeLocation)
+		dateTime := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), i, 0, 0, 0, lib2.TimeLocation)
 		hourData, _ := counter.GetHourData(dateTime)
 		todayList = append(todayList, int(hourData))
 	}
@@ -125,7 +125,7 @@ func (service *DashboardController) FlowStat(c *gin.Context) {
 	var yesterdayList []int
 	yesterTime := currentTime.Add(-1 * time.Duration(time.Hour*24))
 	for i := 0; i <= 23; i++ {
-		dateTime := time.Date(yesterTime.Year(), yesterTime.Month(), yesterTime.Day(), i, 0, 0, 0, lib.TimeLocation)
+		dateTime := time.Date(yesterTime.Year(), yesterTime.Month(), yesterTime.Day(), i, 0, 0, 0, lib2.TimeLocation)
 		hourData, _ := counter.GetHourData(dateTime)
 		yesterdayList = append(yesterdayList, int(hourData))
 	}

@@ -3,9 +3,9 @@ package controller
 import (
 	"errors"
 	"fmt"
+	lib2 "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dao"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dto"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/public"
 	"github.com/gin-gonic/gin"
@@ -47,7 +47,7 @@ func (service *ServiceController) ServiceList(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2000, err)
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -71,9 +71,9 @@ func (service *ServiceController) ServiceList(ctx *gin.Context) {
 		// 2. http域名接入 domain
 		// 3. tcp,grpc接入 clusterIP+servicePort
 		serviceAddr := "unknown"
-		clusterIP := lib.GetStringConf("base.cluster.cluster_ip")
-		clusterPort := lib.GetStringConf("base.cluster.cluster_port")
-		clusterSSLPort := lib.GetStringConf("base.cluster.cluster_ssl_port")
+		clusterIP := lib2.GetStringConf("base.cluster.cluster_ip")
+		clusterPort := lib2.GetStringConf("base.cluster.cluster_port")
+		clusterSSLPort := lib2.GetStringConf("base.cluster.cluster_ssl_port")
 		if serviceDetail.Info.LoadType == public.LoadTypeHTTP &&
 			serviceDetail.HTTPRule.RuleType == public.HTTPRuleTypePrefixURL &&
 			serviceDetail.HTTPRule.NeedHttps == 1 {
@@ -131,7 +131,7 @@ func (service *ServiceController) ServiceDelete(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2000, err)
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -166,7 +166,7 @@ func (service *ServiceController) ServiceDetail(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2000, err)
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -247,7 +247,7 @@ func (serviceController *ServiceController) ServiceAddHTTP(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2000, err)
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -349,7 +349,7 @@ func (serviceController *ServiceController) ServiceUpdateHTTP(ctx *gin.Context) 
 		middleware.ResponseError(ctx, 2000, err)
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -442,7 +442,7 @@ func (serviceController *ServiceController) ServiceAddGRPC(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2000, err)
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -550,7 +550,7 @@ func (serviceController *ServiceController) ServiceUpdateGRPC(ctx *gin.Context) 
 		return
 	}
 	// 数据库连接
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2001, err)
 		return
@@ -646,7 +646,7 @@ func (admin *ServiceController) ServiceAddTcp(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2005, errors.New("ip列表与权重设置不匹配"))
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2002, err)
 		return
@@ -748,7 +748,7 @@ func (admin *ServiceController) ServiceUpdateTcp(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2002, errors.New("ip列表与权重设置不匹配"))
 		return
 	}
-	tx, err := lib.GetGormPool("default")
+	tx, err := lib2.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(ctx, 2003, err)
 		return

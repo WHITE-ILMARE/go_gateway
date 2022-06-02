@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dao"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dto"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/public"
 	"github.com/gin-gonic/contrib/sessions"

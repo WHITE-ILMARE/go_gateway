@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/router"
 	"os"
 	"os/signal"

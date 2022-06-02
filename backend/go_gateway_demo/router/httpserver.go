@@ -2,7 +2,7 @@ package router
 
 import (
 	"context"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"

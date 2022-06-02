@@ -3,7 +3,7 @@ package middleware
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
+	lib2 "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/gin-gonic/gin"
 	"strings"
 )
@@ -33,14 +33,14 @@ type Response struct {
 
 func ResponseError(c *gin.Context, code ResponseCode, err error) {
 	trace, _ := c.Get("trace")
-	traceContext, _ := trace.(*lib.TraceContext)
+	traceContext, _ := trace.(*lib2.TraceContext)
 	traceId := ""
 	if traceContext != nil {
 		traceId = traceContext.TraceId
 	}
 
 	stack := ""
-	if c.Query("is_debug") == "1" || lib.GetConfEnv() == "dev" {
+	if c.Query("is_debug") == "1" || lib2.GetConfEnv() == "dev" {
 		stack = strings.Replace(fmt.Sprintf("%+v", err), err.Error()+"\n", "", -1)
 	}
 
@@ -53,7 +53,7 @@ func ResponseError(c *gin.Context, code ResponseCode, err error) {
 
 func ResponseSuccess(c *gin.Context, data interface{}) {
 	trace, _ := c.Get("trace")
-	traceContext, _ := trace.(*lib.TraceContext)
+	traceContext, _ := trace.(*lib2.TraceContext)
 	traceId := ""
 	if traceContext != nil {
 		traceId = traceContext.TraceId

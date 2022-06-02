@@ -1,7 +1,7 @@
 package public
 
 import (
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/garyburd/redigo/redis"
 )
 

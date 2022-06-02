@@ -2,7 +2,7 @@ package public
 
 import (
 	"fmt"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/garyburd/redigo/redis"
 	"sync/atomic"
 	"time"

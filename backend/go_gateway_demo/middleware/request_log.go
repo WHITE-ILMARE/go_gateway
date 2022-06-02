@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"bytes"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
+	lib2 "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/public"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
@@ -11,7 +11,7 @@ import (
 
 // 请求进入日志
 func RequestInLog(c *gin.Context) {
-	traceContext := lib.NewTrace()
+	traceContext := lib2.NewTrace()
 	if traceId := c.Request.Header.Get("com-header-rid"); traceId != "" {
 		traceContext.TraceId = traceId
 	}
@@ -25,7 +25,7 @@ func RequestInLog(c *gin.Context) {
 	bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
 	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // Write body back
 
-	lib.Log.TagInfo(traceContext, "_com_request_in", map[string]interface{}{
+	lib2.Log.TagInfo(traceContext, "_com_request_in", map[string]interface{}{
 		"uri":    c.Request.RequestURI,
 		"method": c.Request.Method,
 		"args":   c.Request.PostForm,

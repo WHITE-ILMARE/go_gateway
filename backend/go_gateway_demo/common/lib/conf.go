@@ -3,7 +3,7 @@ package lib
 import (
 	"bytes"
 	"database/sql"
-	dlog "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/log"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/log"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 	"io/ioutil"
@@ -107,24 +107,24 @@ func InitBaseConf(path string) error {
 	}
 
 	//配置日志
-	logConf := dlog.LogConfig{
+	logConf := log.LogConfig{
 		Level: ConfBase.Log.Level,
-		FW: dlog.ConfFileWriter{
+		FW: log.ConfFileWriter{
 			On:              ConfBase.Log.FW.On,
 			LogPath:         ConfBase.Log.FW.LogPath,
 			RotateLogPath:   ConfBase.Log.FW.RotateLogPath,
 			WfLogPath:       ConfBase.Log.FW.WfLogPath,
 			RotateWfLogPath: ConfBase.Log.FW.RotateWfLogPath,
 		},
-		CW: dlog.ConfConsoleWriter{
+		CW: log.ConfConsoleWriter{
 			On:    ConfBase.Log.CW.On,
 			Color: ConfBase.Log.CW.Color,
 		},
 	}
-	if err := dlog.SetupDefaultLogWithConf(logConf); err != nil {
+	if err := log.SetupDefaultLogWithConf(logConf); err != nil {
 		panic(err)
 	}
-	dlog.SetLayout("2006-01-02T15:04:05.000")
+	log.SetLayout("2006-01-02T15:04:05.000")
 	return nil
 }
 
