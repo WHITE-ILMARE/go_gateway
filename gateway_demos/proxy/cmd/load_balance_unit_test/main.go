@@ -1,4 +1,4 @@
-package load_balance
+package load_balance_unit_test
 
 import (
 	"fmt"

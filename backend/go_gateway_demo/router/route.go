@@ -3,8 +3,8 @@ package router
 import (
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/controller"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/docs"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/lib"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
-	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"

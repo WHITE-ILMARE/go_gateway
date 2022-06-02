@@ -2,16 +2,16 @@ package load_balance
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
+	"strings"
 )
 
-// RandomBalance 实现随机负载均衡
 type RandomBalance struct {
 	curIndex int
-	// 目标服务器数组
-	rss []string
-	// 观察者主体，服务发现时会用到
-	//conf LoadBalanceConf
+	rss      []string
+	//观察主体
+	conf LoadBalanceConf
 }
 
 func (r *RandomBalance) Add(params ...string) error {
@@ -31,7 +31,27 @@ func (r *RandomBalance) Next() string {
 	return r.rss[r.curIndex]
 }
 
-// 简单包装了Next()
 func (r *RandomBalance) Get(key string) (string, error) {
 	return r.Next(), nil
+}
+
+func (r *RandomBalance) SetConf(conf LoadBalanceConf) {
+	r.conf = conf
+}
+
+func (r *RandomBalance) Update() {
+	if conf, ok := r.conf.(*LoadBalanceZkConf); ok {
+		fmt.Println("Update get conf:", conf.GetConf())
+		r.rss = []string{}
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
+	if conf, ok := r.conf.(*LoadBalanceCheckConf); ok {
+		fmt.Println("Update get conf:", conf.GetConf())
+		r.rss = nil
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
 }
