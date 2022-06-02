@@ -2,6 +2,7 @@ package dao
 
 import (
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dto"
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"time"
 )
@@ -36,7 +37,23 @@ func (t *ServiceInfo) PageList(tx *gorm.DB, param *dto.ServiceListInput) ([]Serv
 	return list, total, nil
 }
 
+func (t *ServiceInfo) GroupByLoadType(c *gin.Context, tx *gorm.DB) ([]dto.DashServiceStatItemOutput, error) {
+	list := []dto.DashServiceStatItemOutput{}
+	query := tx
+	if err := query.Table(t.TableName()).Where("is_delete=0").Select("load_type, count(*) as value").Group("load_type").Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
 func (t *ServiceInfo) ServiceDetail(tx *gorm.DB, search *ServiceInfo) (*ServiceDetail, error) {
+	if search.ServiceName == "" {
+		info, err := t.Find(tx, search)
+		if err != nil {
+			return nil, err
+		}
+		search = info
+	}
 	httpRule := &HttpRule{ServiceID: search.ID}
 	httpRule, err := httpRule.Find(tx, httpRule)
 	if err != nil && err != gorm.ErrRecordNotFound {

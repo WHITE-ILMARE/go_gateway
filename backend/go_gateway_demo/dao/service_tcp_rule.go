@@ -16,7 +16,7 @@ func (s *TcpRule) TableName() string {
 
 func (t *TcpRule) Find(tx *gorm.DB, search *TcpRule) (*TcpRule, error) {
 	model := &TcpRule{}
-	err := tx.Where(search).Find(model).Error
+	err := tx.Where(search).First(model).Error
 	if err != nil {
 		return nil, err
 	}

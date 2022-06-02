@@ -2,7 +2,7 @@ package public
 
 import (
 	"fmt"
-	"github.com/e421083458/go_gateway/golang_common/lib"
+	"github.com/e421083458/golang_common/lib"
 	"github.com/garyburd/redigo/redis"
 	"sync/atomic"
 	"time"
@@ -45,13 +45,13 @@ func NewRedisFlowCountService(appID string, interval time.Duration) *RedisFlowCo
 				c.Send("INCRBY", hourKey, tickerCount)
 				c.Send("EXPIRE", hourKey, 86400*2)
 			}); err != nil {
-				fmt.Println("RedisConfPipline err",err)
+				fmt.Println("RedisConfPipline err", err)
 				continue
 			}
 
 			totalCount, err := reqCounter.GetDayData(currentTime)
 			if err != nil {
-				fmt.Println("reqCounter.GetDayData err",err)
+				fmt.Println("reqCounter.GetDayData err", err)
 				continue
 			}
 			nowUnix := time.Now().Unix()
@@ -80,11 +80,11 @@ func (o *RedisFlowCountService) GetHourKey(t time.Time) string {
 	return fmt.Sprintf("%s_%s_%s", RedisFlowHourKey, hourStr, o.AppID)
 }
 
-func (o *RedisFlowCountService) GetHourData(t time.Time) (int64,error) {
+func (o *RedisFlowCountService) GetHourData(t time.Time) (int64, error) {
 	return redis.Int64(RedisConfDo("GET", o.GetHourKey(t)))
 }
 
-func (o *RedisFlowCountService) GetDayData(t time.Time) (int64,error) {
+func (o *RedisFlowCountService) GetDayData(t time.Time) (int64, error) {
 	return redis.Int64(RedisConfDo("GET", o.GetDayKey(t)))
 }
 

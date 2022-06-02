@@ -81,6 +81,9 @@ func TranslationMiddleware() gin.HandlerFunc {
 				return true
 			})
 			val.RegisterValidation("valid_iplist", func(fl validator.FieldLevel) bool {
+				if fl.Field().String() == "" {
+					return true
+				}
 				for _, ms := range strings.Split(fl.Field().String(), "\n") {
 					if match, _ := regexp.Match(`^\S+\:\d+$`, []byte(ms)); !match {
 						return false

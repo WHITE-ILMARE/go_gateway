@@ -17,7 +17,7 @@ func (s *GrpcRule) TableName() string {
 
 func (t *GrpcRule) Find(tx *gorm.DB, search *GrpcRule) (*GrpcRule, error) {
 	model := &GrpcRule{}
-	err := tx.Where(search).Find(model).Error
+	err := tx.Where(search).First(model).Error
 	if err != nil {
 		return nil, err
 	}
