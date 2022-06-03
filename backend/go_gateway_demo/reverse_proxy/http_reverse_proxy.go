@@ -14,7 +14,6 @@ func NewLoadBalanceReverseProxy(c *gin.Context, lb load_balance.LoadBalance, tra
 	//请求协调者
 	director := func(req *http.Request) {
 		nextAddr, err := lb.Get(req.URL.String())
-		//todo 优化点3
 		if err != nil || nextAddr == "" {
 			panic("get next addr fail")
 		}
@@ -43,7 +42,6 @@ func NewLoadBalanceReverseProxy(c *gin.Context, lb load_balance.LoadBalance, tra
 			return nil
 		}
 
-		//todo 优化点2
 		//var payload []byte
 		//var readErr error
 		//

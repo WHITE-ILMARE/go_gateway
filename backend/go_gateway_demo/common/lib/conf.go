@@ -237,10 +237,13 @@ func GetFloat64Conf(key string) float64 {
 //获取get配置信息
 func GetIntConf(key string) int {
 	keys := strings.Split(key, ".")
+	//fmt.Printf("keys=%v\n", keys)
 	if len(keys) < 2 {
 		return 0
 	}
 	v := ViperConfMap[keys[0]]
+	//fmt.Printf("keys[1:len(keys)]=%v\n", keys[1:len(keys)])
+	//fmt.Printf("strings.Join(keys[1:len(keys)], \".\")=%v\n", strings.Join(keys[1:len(keys)], "."))
 	conf := v.GetInt(strings.Join(keys[1:len(keys)], "."))
 	return conf
 }

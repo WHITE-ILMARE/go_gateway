@@ -18,7 +18,7 @@ func HTTPReverseProxyMiddleware() gin.HandlerFunc {
 			return
 		}
 		serviceDetail := serverInterface.(*dao.ServiceDetail)
-
+		// 根据服务信息（负载均衡类型、ip列表和权重列表等）构造负载均衡器
 		lb, err := dao.LoadBalancerHandler.GetLoadBalancer(serviceDetail)
 		if err != nil {
 			middleware.ResponseError(c, 2002, err)
@@ -31,11 +31,11 @@ func HTTPReverseProxyMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		//middleware.ResponseSuccess(c,"ok")
-		//return
-		//创建 reverseproxy
-		//使用 reverseproxy.ServerHTTP(c.Request,c.Response)
+		// middleware.ResponseSuccess(c,"ok")
+		// return
+		// 创建 一个httputil.reverseProxy实例
 		proxy := reverse_proxy.NewLoadBalanceReverseProxy(c, lb, trans)
+		// 作为中间件的最后一层，不必再传递，直接使用ServeHTTP处理真实的HTTP请求
 		proxy.ServeHTTP(c.Writer, c.Request)
 		c.Abort()
 		return

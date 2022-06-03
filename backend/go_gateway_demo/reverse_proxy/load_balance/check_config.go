@@ -45,7 +45,7 @@ func (s *LoadBalanceCheckConf) GetConf() []string {
 	return confList
 }
 
-//更新配置时，通知监听者也更新
+// WatchConf 更新配置时，通知监听者也更新
 func (s *LoadBalanceCheckConf) WatchConf() {
 	//fmt.Println("watchConf")
 	go func() {
@@ -53,8 +53,8 @@ func (s *LoadBalanceCheckConf) WatchConf() {
 		for {
 			changedList := []string{}
 			for item, _ := range s.confIpWeight {
+				// 客户端watch，主动探测
 				conn, err := net.DialTimeout("tcp", item, time.Duration(DefaultCheckTimeout)*time.Second)
-				//todo http statuscode
 				if err == nil {
 					conn.Close()
 					if _, ok := confIpErrNum[item]; ok {

@@ -84,6 +84,7 @@ func (lbr *LoadBalancer) GetLoadBalancer(service *ServiceDetail) (load_balance.L
 			return lbrItem.LoadBanlance, nil
 		}
 	}
+	// 先获取前缀
 	schema := "http://"
 	if service.HTTPRule.NeedHttps == 1 {
 		schema = "https://"
@@ -93,6 +94,7 @@ func (lbr *LoadBalancer) GetLoadBalancer(service *ServiceDetail) (load_balance.L
 	}
 	ipList := service.LoadBalance.GetIPListByModel()
 	weightList := service.LoadBalance.GetWeightListByModel()
+	// 构造一个ip到weight的映射
 	ipConf := map[string]string{}
 	for ipIndex, ipItem := range ipList {
 		ipConf[ipItem] = weightList[ipIndex]
