@@ -1,0 +1,12 @@
+[INFO][2022-06-03T10:45:10.463][log.go:44] _com_request_in||uri=/||body=||from=::1||traceid=c0a801b2629975b626088610658221b0||cspanid=||method=GET||args=map[]||spanid=a231740478629a0f
+[INFO][2022-06-03T10:45:10.463][log.go:44] _com_request_out||traceid=c0a801b2629975b626088610658221b0||cspanid=||spanid=a231740478629a0f||method=GET||args=map[]||proc_time=4.9597e-05||uri=/||from=::1||response=<nil>
+[INFO][2022-06-03T10:45:21.320][log.go:44] _com_request_in||uri=/||method=GET||args=map[]||from=127.0.0.1||traceid=c0a801b2629975c1e1a08610104dc7b0||cspanid=||body=||spanid=a2317473380704bb
+[INFO][2022-06-03T10:45:21.320][log.go:44] _com_request_out||from=127.0.0.1||response=<nil>||cspanid=||args=map[]||method=GET||proc_time=4.3611e-05||traceid=c0a801b2629975c1e1a08610104dc7b0||spanid=a2317473380704bb||uri=/
+[INFO][2022-06-03T10:45:21.320][log.go:44] _com_request_in||traceid=c0a801b2629975c1c4d886105a8581b0||cspanid=||uri=/favicon.ico||method=GET||args=map[]||body=||from=127.0.0.1||spanid=a231747357e9d186
+[INFO][2022-06-03T10:45:21.320][log.go:44] _com_request_out||method=GET||args=map[]||from=127.0.0.1||response=<nil>||proc_time=3.4818e-05||traceid=c0a801b2629975c1c4d886105a8581b0||cspanid=||uri=/favicon.ico||spanid=a231747357e9d186
+[INFO][2022-06-03T10:45:29.670][log.go:44] _com_request_in||method=GET||from=127.0.0.1||traceid=c0a801b2629975c997a8861066cb39b0||cspanid=||spanid=a231747b1408d2ac||uri=/ping||args=map[]||body=
+[INFO][2022-06-03T10:45:29.670][log.go:44] _com_request_out||from=127.0.0.1||proc_time=0.000100596||traceid=c0a801b2629975c997a8861066cb39b0||spanid=a231747b1408d2ac||uri=/ping||method=GET||cspanid=||args=map[]||response=<nil>
+[INFO][2022-06-03T10:46:58.285][log.go:44] _com_request_in||method=GET||cspanid=||uri=/ping||args=map[]||body=||from=::1||traceid=c0a801b262997622a0f88610697f48b0||spanid=a2317790268447a4
+[INFO][2022-06-03T10:46:58.285][log.go:44] _com_request_out||uri=/ping||method=GET||args=map[]||response=<nil>||traceid=c0a801b262997622a0f88610697f48b0||from=::1||proc_time=5.1105e-05||cspanid=||spanid=a2317790268447a4
+[INFO][2022-06-03T10:46:58.285][log.go:44] _com_request_in||uri=/favicon.ico||args=map[]||from=::1||traceid=c0a801b2629976226d988610f27cc6b0||spanid=a231779068255aaf||method=GET||body=||cspanid=
+[INFO][2022-06-03T10:46:58.285][log.go:44] _com_request_out||method=GET||args=map[]||response=<nil>||proc_time=6.521e-05||cspanid=||uri=/favicon.ico||from=::1||traceid=c0a801b2629976226d988610f27cc6b0||spanid=a231779068255aaf

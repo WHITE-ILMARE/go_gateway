@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/lib"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dao"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/http_proxy_router"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/router"
 	"os"
 	"os/signal"
@@ -53,13 +54,21 @@ func main() {
 	} else { // 代理服务器服务
 		lib.InitModule(*config, []string{"base", "mysql", "redis"})
 		defer lib.Destroy()
-		router.HttpServerRun()
-
-		fmt.Println("启动代理服务了！ ")
+		dao.ServiceManagerHandler.LoadOnce()
+		// 使用另一套路由服务
+		go func() {
+			http_proxy_router.HttpServerRun()
+		}()
+		go func() {
+			http_proxy_router.HttpsServerRun()
+		}()
 
 		quit := make(chan os.Signal)
 		signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 		<-quit
+
+		http_proxy_router.HttpServerStop()
+		http_proxy_router.HttpsServerStop()
 	}
 
 }
