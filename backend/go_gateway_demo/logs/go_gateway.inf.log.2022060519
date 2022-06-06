@@ -1,0 +1,2 @@
+[INFO][2022-06-05T20:00:19.193][log.go:44] _com_request_in||from=127.0.0.1||cspanid=||spanid=a2349bdb3485757e||uri=/test_http_string||args=map[]||traceid=c0a80108629c9ad31c20b07602a18db0||method=GET||body=
+[INFO][2022-06-05T20:00:19.193][log.go:44] _com_request_out||uri=/test_http_string||method=GET||from=127.0.0.1||response=<nil>||args=map[]||proc_time=0.001039999||traceid=c0a80108629c9ad31c20b07602a18db0||cspanid=||spanid=a2349bdb3485757e

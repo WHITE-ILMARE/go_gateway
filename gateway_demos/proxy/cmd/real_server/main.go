@@ -41,6 +41,7 @@ func (r *RealServer) run() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", r.HelloHandler)
 	mux.HandleFunc("/base/error", r.ErrorHandler)
+	mux.HandleFunc("/test_http_string/aaa", r.TimeoutHandler)
 	// 这儿实例化了一个http.Server结构体，写好了各种配置
 	server := &http.Server{
 		Addr:         r.Addr,
@@ -53,19 +54,28 @@ func (r *RealServer) run() {
 	}()
 }
 
-// 打印请求的地址
+// HelloHandler 打印请求的地址
 func (r *RealServer) HelloHandler(w http.ResponseWriter, req *http.Request) {
 	// 若请求地址为127.0.0.1/abc?q=1，r.Addr为127.0.0.1, Path为/abc
 	upath := fmt.Sprintf("Hello from http://%s%s\n", r.Addr, req.URL.Path)
 
 	// 细节是RemoteAddr是在req中内置的字段，而XFF和X-Real-IP是自定义的，只能从Header里取
 	realIP := fmt.Sprintf("RemoteAddr=%s,X-Forwarded-For=%v,X-Real-IP=%v\n", req.RemoteAddr, req.Header.Get("X-Forwarded-For"), req.Header.Get("X-Real-IP"))
+	headers := fmt.Sprintf("headers = %v\n", req.Header)
 	io.WriteString(w, upath)
 	io.WriteString(w, realIP)
+	io.WriteString(w, headers)
 }
 
 func (r *RealServer) ErrorHandler(w http.ResponseWriter, req *http.Request) {
 	upath := "error handler"
 	w.WriteHeader(500)
 	io.WriteString(w, upath)
+}
+
+func (r *RealServer) TimeoutHandler(w http.ResponseWriter, req *http.Request) {
+	time.Sleep(6 * time.Second)
+	msg := "timeout handler"
+	w.WriteHeader(200)
+	io.WriteString(w, msg)
 }

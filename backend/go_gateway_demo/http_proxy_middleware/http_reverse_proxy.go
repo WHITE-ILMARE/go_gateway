@@ -8,7 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-//匹配接入方式 基于请求信息
+// HTTPReverseProxyMiddleware 匹配接入方式 基于请求信息
 func HTTPReverseProxyMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		serverInterface, ok := c.Get("service")

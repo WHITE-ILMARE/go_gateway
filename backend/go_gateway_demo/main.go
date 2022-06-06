@@ -6,6 +6,7 @@ import (
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/dao"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/http_proxy_router"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/router"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/tcp_proxy_router"
 	"os"
 	"os/signal"
 	"syscall"
@@ -54,19 +55,27 @@ func main() {
 	} else { // 代理服务器服务
 		lib.InitModule(*config, []string{"base", "mysql", "redis"})
 		defer lib.Destroy()
+		// 将数据库中的服务信息和APP信息加载到内存中，方便接口调用
 		dao.ServiceManagerHandler.LoadOnce()
+		dao.AppManagerHandler.LoadOnce()
 		// 使用另一套路由服务
+		// http代理启动
 		go func() {
 			http_proxy_router.HttpServerRun()
 		}()
 		go func() {
 			http_proxy_router.HttpsServerRun()
 		}()
+		// tcp代理启动
+		go func() {
+			tcp_proxy_router.TcpServerRun()
+		}()
 
 		quit := make(chan os.Signal)
 		signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 		<-quit
 
+		tcp_proxy_router.TcpServerStop()
 		http_proxy_router.HttpServerStop()
 		http_proxy_router.HttpsServerStop()
 	}

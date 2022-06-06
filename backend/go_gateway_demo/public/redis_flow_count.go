@@ -88,7 +88,7 @@ func (o *RedisFlowCountService) GetDayData(t time.Time) (int64, error) {
 	return redis.Int64(RedisConfDo("GET", o.GetDayKey(t)))
 }
 
-//原子增加
+// Increase 原子增加
 func (o *RedisFlowCountService) Increase() {
 	go func() {
 		defer func() {

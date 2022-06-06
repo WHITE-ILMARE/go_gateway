@@ -98,8 +98,8 @@ type ServiceAddGrpcInput struct {
 	ServiceName string `json:"service_name" form:"service_name" comment:"服务名"  validate:"required,valid_service_name" example:""` // 服务名
 	ServiceDesc string `json:"service_desc" form:"service_desc" comment:"服务描述"  validate:"required,max=255,min=1" example:""`     // 服务描述
 	// gateway_service_grpc_rule表字段
-	Port         int    `json:"port" form:"port" comment:"端口，需要设置8001-8999范围内" validate:"required,min=8001,max=8999"`
-	HeadTransfor string `json:"header_transfor" form:"header_transfor" comment:"metadata转换" validate:"valid_header_transfor" example:""`
+	Port           int    `json:"port" form:"port" comment:"端口，需要设置8001-8999范围内" validate:"required,min=8001,max=8999"`
+	HeaderTransfor string `json:"header_transfor" form:"header_transfor" comment:"metadata转换" validate:"valid_header_transfor" example:""`
 	// gateway_access_control表字段
 	OpenAuth          int    `json:"open_auth" form:"open_auth" comment:"是否开启权限"  validate:"max=1,min=0"`            // 是否开启权限
 	BlackList         string `json:"black_list" form:"black_list" comment:"黑名单ip"  validate:"" example:""`           // 黑名单ip
@@ -120,8 +120,8 @@ type ServiceUpdateGrpcInput struct {
 	ServiceName string `json:"service_name" form:"service_name" comment:"服务名"  validate:"required,valid_service_name"` // 服务名
 	ServiceDesc string `json:"service_desc" form:"service_desc" comment:"服务描述"  validate:"required,max=255,min=1"`     // 服务描述
 	// gateway_service_grpc_rule表字段
-	Port         int    `json:"port" form:"port" comment:"端口，需要设置8001-8999范围内" validate:"required,min=8001,max=8999"`
-	HeadTransfor string `json:"header_transfor" form:"header_transfor" comment:"metadata转换" validate:"valid_header_transfor"`
+	Port           int    `json:"port" form:"port" comment:"端口，需要设置8001-8999范围内" validate:"required,min=8001,max=8999"`
+	HeaderTransfor string `json:"header_transfor" form:"header_transfor" comment:"metadata转换" validate:"valid_header_transfor"`
 	// 权限控制相关
 	OpenAuth          int    `json:"open_auth" form:"open_auth" comment:"是否开启权限"  validate:"max=1,min=0"` // 是否开启权限
 	BlackList         string `json:"black_list" form:"black_list" comment:"黑名单ip"  validate:""`           // 黑名单ip
@@ -177,11 +177,11 @@ type ServiceUpdateTcpInput struct {
 	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用IP列表" validate:"valid_iplist"`
 }
 
-func (params *ServiceUpdateTcpInput) GetValidParams(c *gin.Context) error {
+func (params *ServiceUpdateTcpInput) BindValidParam(c *gin.Context) error {
 	return public.DefaultGetValidParams(c, params)
 }
 
-func (params *ServiceAddTcpInput) GetValidParams(c *gin.Context) error {
+func (params *ServiceAddTcpInput) BindValidParam(c *gin.Context) error {
 	return public.DefaultGetValidParams(c, params)
 }
 
@@ -189,7 +189,7 @@ func (param *ServiceUpdateGrpcInput) BindValidParam(c *gin.Context) error {
 	return public.DefaultGetValidParams(c, param)
 }
 
-func (param *ServiceAddGrpcInput) BindValidParam(c *gin.Context) error {
+func (param *ServiceAddGrpcInput) GetValidParams(c *gin.Context) error {
 	return public.DefaultGetValidParams(c, param)
 }
 

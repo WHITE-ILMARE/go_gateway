@@ -1,11 +1,12 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/public"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/zh"
-	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/universal-translator"
 	"gopkg.in/go-playground/validator.v9"
 	en_translations "gopkg.in/go-playground/validator.v9/translations/en"
 	zh_translations "gopkg.in/go-playground/validator.v9/translations/zh"
@@ -14,7 +15,7 @@ import (
 	"strings"
 )
 
-//设置Translation
+// TranslationMiddleware 设置Translation
 func TranslationMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//参照：https://github.com/go-playground/validator/blob/v9/_examples/translations/main.go
@@ -62,7 +63,7 @@ func TranslationMiddleware() gin.HandlerFunc {
 				if fl.Field().String() == "" {
 					return true
 				}
-				for _, ms := range strings.Split(fl.Field().String(), "\n") {
+				for _, ms := range strings.Split(fl.Field().String(), ",") {
 					if len(strings.Split(ms, " ")) != 2 {
 						return false
 					}
@@ -73,8 +74,16 @@ func TranslationMiddleware() gin.HandlerFunc {
 				if fl.Field().String() == "" {
 					return true
 				}
-				for _, ms := range strings.Split(fl.Field().String(), "\n") {
+				for _, ms := range strings.Split(fl.Field().String(), ",") {
 					if len(strings.Split(ms, " ")) != 3 {
+						return false
+					}
+				}
+				return true
+			})
+			val.RegisterValidation("valid_ipportlist", func(fl validator.FieldLevel) bool {
+				for _, ms := range strings.Split(fl.Field().String(), ",") {
+					if matched, _ := regexp.Match(`^\S+\:\d+$`, []byte(ms)); !matched {
 						return false
 					}
 				}
@@ -84,23 +93,25 @@ func TranslationMiddleware() gin.HandlerFunc {
 				if fl.Field().String() == "" {
 					return true
 				}
-				for _, ms := range strings.Split(fl.Field().String(), "\n") {
-					if match, _ := regexp.Match(`^\S+\:\d+$`, []byte(ms)); !match {
+				for _, item := range strings.Split(fl.Field().String(), ",") {
+					matched, _ := regexp.Match(`\S+`, []byte(item)) //ip_addr
+					if !matched {
 						return false
 					}
 				}
 				return true
 			})
 			val.RegisterValidation("valid_weight_list", func(fl validator.FieldLevel) bool {
-				for _, ms := range strings.Split(fl.Field().String(), "\n") {
-					if match, _ := regexp.Match(`^\d+$`, []byte(ms)); !match {
+				fmt.Println(fl.Field().String())
+				for _, ms := range strings.Split(fl.Field().String(), ",") {
+					if matched, _ := regexp.Match(`^\d+$`, []byte(ms)); !matched {
 						return false
 					}
 				}
 				return true
 			})
 
-			//自定义验证器
+			//自定义翻译器
 			//https://github.com/go-playground/validator/blob/v9/_examples/translations/main.go
 			val.RegisterTranslation("valid_username", trans, func(ut ut.Translator) error {
 				return ut.Add("valid_username", "{0} 填写不正确哦", true)
@@ -130,6 +141,12 @@ func TranslationMiddleware() gin.HandlerFunc {
 				return ut.Add("valid_header_transfor", "{0} 不符合输入格式", true)
 			}, func(ut ut.Translator, fe validator.FieldError) string {
 				t, _ := ut.T("valid_header_transfor", fe.Field())
+				return t
+			})
+			val.RegisterTranslation("valid_ipportlist", trans, func(ut ut.Translator) error {
+				return ut.Add("valid_ipportlist", "{0} 不符合输入格式", true)
+			}, func(ut ut.Translator, fe validator.FieldError) string {
+				t, _ := ut.T("valid_ipportlist", fe.Field())
 				return t
 			})
 			val.RegisterTranslation("valid_iplist", trans, func(ut ut.Translator) error {

@@ -1,12 +1,14 @@
 package http_proxy_router
 
 import (
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/controller"
 	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/http_proxy_middleware"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
-	//todo 优化点1
+	// 优化点1：使用gin.New()而非gin.Default()，因为Default()会在控制台输出日志信息，影响性能
 	//router := gin.Default()
 	router := gin.New()
 	router.Use(middlewares...)
@@ -16,25 +18,30 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		})
 	})
 
-	//oauth := router.Group("/oauth")
-	//oauth.Use(middleware.TranslationMiddleware())
-	//{
-	//	controller.OAuthRegister(oauth)
-	//}
+	oauth := router.Group("/oauth")
+	oauth.Use(middleware.TranslationMiddleware())
+	{
+		controller.OAuthRegister(oauth)
+	}
 
 	router.Use(
 		http_proxy_middleware.HTTPAccessModeMiddleware(),
-		//http_proxy_middleware.HTTPFlowCountMiddleware(),
-		//http_proxy_middleware.HTTPFlowLimitMiddleware(),
-		//http_proxy_middleware.HTTPJwtAuthTokenMiddleware(),
-		//http_proxy_middleware.HTTPJwtFlowCountMiddleware(),
-		//http_proxy_middleware.HTTPJwtFlowLimitMiddleware(),
-		//http_proxy_middleware.HTTPWhiteListMiddleware(),
-		//http_proxy_middleware.HTTPBlackListMiddleware(),
-		//http_proxy_middleware.HTTPHeaderTransferMiddleware(),
-		//http_proxy_middleware.HTTPStripUriMiddleware(),
-		//http_proxy_middleware.HTTPUrlRewriteMiddleware(),
-		//http_proxy_middleware.HTTPReverseProxyMiddleware()
+
+		http_proxy_middleware.HTTPFlowCountMiddleware(),
+		http_proxy_middleware.HTTPFlowLimitMiddleware(),
+
+		http_proxy_middleware.HTTPJwtAuthTokenMiddleware(),
+		http_proxy_middleware.HTTPJwtFlowCountMiddleware(),
+		http_proxy_middleware.HTTPJwtFlowLimitMiddleware(),
+
+		http_proxy_middleware.HTTPWhiteListMiddleware(),
+		http_proxy_middleware.HTTPBlackListMiddleware(),
+
+		http_proxy_middleware.HTTPHeaderTransferMiddleware(),
+		http_proxy_middleware.HTTPStripUriMiddleware(),
+		http_proxy_middleware.HTTPUrlRewriteMiddleware(),
+
+		http_proxy_middleware.HTTPReverseProxyMiddleware(),
 	)
 
 	return router

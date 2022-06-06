@@ -3,7 +3,7 @@ package lib
 import (
 	"bytes"
 	"database/sql"
-	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/log"
+	dlog "github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/common/log"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 	"io/ioutil"
@@ -107,24 +107,24 @@ func InitBaseConf(path string) error {
 	}
 
 	//配置日志
-	logConf := log.LogConfig{
+	logConf := dlog.LogConfig{
 		Level: ConfBase.Log.Level,
-		FW: log.ConfFileWriter{
+		FW: dlog.ConfFileWriter{
 			On:              ConfBase.Log.FW.On,
 			LogPath:         ConfBase.Log.FW.LogPath,
 			RotateLogPath:   ConfBase.Log.FW.RotateLogPath,
 			WfLogPath:       ConfBase.Log.FW.WfLogPath,
 			RotateWfLogPath: ConfBase.Log.FW.RotateWfLogPath,
 		},
-		CW: log.ConfConsoleWriter{
+		CW: dlog.ConfConsoleWriter{
 			On:    ConfBase.Log.CW.On,
 			Color: ConfBase.Log.CW.Color,
 		},
 	}
-	if err := log.SetupDefaultLogWithConf(logConf); err != nil {
+	if err := dlog.SetupDefaultLogWithConf(logConf); err != nil {
 		panic(err)
 	}
-	log.SetLayout("2006-01-02T15:04:05.000")
+	dlog.SetLayout("2006-01-02T15:04:05.000")
 	return nil
 }
 
@@ -212,7 +212,7 @@ func GetConf(key string) interface{} {
 	return conf
 }
 
-//获取get配置信息
+// GetBoolConf 获取get配置信息
 func GetBoolConf(key string) bool {
 	keys := strings.Split(key, ".")
 	if len(keys) < 2 {
@@ -237,13 +237,10 @@ func GetFloat64Conf(key string) float64 {
 //获取get配置信息
 func GetIntConf(key string) int {
 	keys := strings.Split(key, ".")
-	//fmt.Printf("keys=%v\n", keys)
 	if len(keys) < 2 {
 		return 0
 	}
 	v := ViperConfMap[keys[0]]
-	//fmt.Printf("keys[1:len(keys)]=%v\n", keys[1:len(keys)])
-	//fmt.Printf("strings.Join(keys[1:len(keys)], \".\")=%v\n", strings.Join(keys[1:len(keys)], "."))
 	conf := v.GetInt(strings.Join(keys[1:len(keys)], "."))
 	return conf
 }

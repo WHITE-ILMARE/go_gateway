@@ -73,7 +73,7 @@ func RedisLogDo(trace *TraceContext, c redis.Conn, commandName string, args ...i
 	return reply, err
 }
 
-//通过配置 执行redis
+// RedisConfDo 通过配置 执行redis
 func RedisConfDo(trace *TraceContext, name string, commandName string, args ...interface{}) (interface{}, error) {
 	c, err := RedisConnFactory(name)
 	if err != nil {

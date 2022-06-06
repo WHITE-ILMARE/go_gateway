@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/BurntSushi/toml v1.1.0 // indirect
 	github.com/denisenkom/go-mssqldb v0.12.2 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/e421083458/go_gateway v0.0.0-20200620084504-d602eb8bc883
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/garyburd/redigo v1.6.0

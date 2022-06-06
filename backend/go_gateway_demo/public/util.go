@@ -24,7 +24,15 @@ func MD5(s string) string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-func Obj2Json(o interface{}) string {
-	marshal, _ := json.Marshal(o)
-	return string(marshal)
+func Obj2Json(s interface{}) string {
+	bts, _ := json.Marshal(s)
+	return string(bts)
+}
+func InStringSlice(slice []string, str string) bool {
+	for _, item := range slice {
+		if str == item {
+			return true
+		}
+	}
+	return false
 }

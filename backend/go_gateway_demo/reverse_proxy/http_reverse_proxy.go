@@ -1,8 +1,8 @@
 package reverse_proxy
 
 import (
-	"github.com/e421083458/go_gateway/middleware"
-	"github.com/e421083458/go_gateway/reverse_proxy/load_balance"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/middleware"
+	"github.com/WHITE-ILMARE/go_gateway/backend/go_gateway_demo/reverse_proxy/load_balance"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/http/httputil"
@@ -14,6 +14,7 @@ func NewLoadBalanceReverseProxy(c *gin.Context, lb load_balance.LoadBalance, tra
 	//请求协调者
 	director := func(req *http.Request) {
 		nextAddr, err := lb.Get(req.URL.String())
+		//fmt.Println("nextAddr:", nextAddr)
 		if err != nil || nextAddr == "" {
 			panic("get next addr fail")
 		}
@@ -41,7 +42,7 @@ func NewLoadBalanceReverseProxy(c *gin.Context, lb load_balance.LoadBalance, tra
 		if strings.Contains(resp.Header.Get("Connection"), "Upgrade") {
 			return nil
 		}
-
+		// 优化点2：不修改响应和回存，因为现实业务暂时不需要
 		//var payload []byte
 		//var readErr error
 		//

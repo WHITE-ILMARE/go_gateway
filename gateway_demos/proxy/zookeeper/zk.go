@@ -16,7 +16,7 @@ func NewZkManager(hosts []string) *ZkManager {
 	return &ZkManager{hosts: hosts, pathPrefix: "/gateway_servers_"}
 }
 
-//连接zk服务器
+// GetConnect 连接zk服务器
 func (z *ZkManager) GetConnect() error {
 	conn, _, err := zk.Connect(z.hosts, 5*time.Second)
 	if err != nil {
@@ -26,7 +26,7 @@ func (z *ZkManager) GetConnect() error {
 	return nil
 }
 
-//关闭服务
+// Close 关闭服务
 func (z *ZkManager) Close() {
 	z.conn.Close()
 	return

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// 请求进入日志
+// RequestInLog 请求进入日志
 func RequestInLog(c *gin.Context) {
 	traceContext := lib2.NewTrace()
 	if traceId := c.Request.Header.Get("com-header-rid"); traceId != "" {
@@ -34,7 +34,7 @@ func RequestInLog(c *gin.Context) {
 	})
 }
 
-// 请求输出日志
+// RequestOutLog 请求输出日志
 func RequestOutLog(c *gin.Context) {
 	// after request
 	endExecTime := time.Now()
@@ -54,8 +54,12 @@ func RequestOutLog(c *gin.Context) {
 
 func RequestLog() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		RequestInLog(c)
-		defer RequestOutLog(c)
+		// 优化点4： 根据配置文件再决定要不要打印log，为了提升性能可以设置不打印log
+		if lib2.GetBoolConf("base.log.file_writer.on") {
+
+			RequestInLog(c)
+			defer RequestOutLog(c)
+		}
 		c.Next()
 	}
 }
