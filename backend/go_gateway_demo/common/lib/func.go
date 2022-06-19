@@ -23,15 +23,15 @@ var TimeFormat = "2006-01-02 15:04:05"
 var DateFormat = "2006-01-02"
 var LocalIP = net.ParseIP("127.0.0.1")
 
-//公共初始化函数：支持两种方式设置配置文件
-//
+// Init 公共初始化函数：支持两种方式设置配置文件
 //函数传入配置文件 Init("./conf/dev/")
 //如果配置文件为空，会从命令行中读取 	  -config conf/dev/
 func Init(configPath string) error {
 	return InitModule(configPath, []string{"base", "mysql", "redis"})
 }
 
-//模块初始化
+// InitModule 模块初始化
+// modules指定要加载的配置，默认是[]string{"base", "mysql", "redis"}
 func InitModule(configPath string, modules []string) error {
 	log.Println("------------------------------------------------------------------------")
 	log.Printf("[INFO]  config=%s\n", configPath)
@@ -43,7 +43,7 @@ func InitModule(configPath string, modules []string) error {
 		LocalIP = ips[0]
 	}
 
-	// 解析配置文件目录
+	// 解析配置文件目录，得到ConfEnvPath和ConfEnv
 	if err := ParseConfPath(configPath); err != nil {
 		return err
 	}
@@ -67,7 +67,7 @@ func InitModule(configPath string, modules []string) error {
 		}
 	}
 
-	// 加载mysql配置并初始化实例
+	// 加载mysql配置并初始化实例，存放于DBMapPool和GormMapPool两个map中，目前只有default对应有值
 	if InArrayString("mysql", modules) {
 		if err := InitDBPool(GetConfPath("mysql_map")); err != nil {
 			fmt.Printf("[ERROR] %s%s\n", time.Now().Format(TimeFormat), " InitDBPool:"+err.Error())
@@ -336,11 +336,13 @@ func calcTraceId(ip string) (traceId string) {
 }
 
 func GetLocalIPs() (ips []net.IP) {
+	//fmt.Println("--- getLocalIPsStart ---")
 	interfaceAddr, err := net.InterfaceAddrs()
 	if err != nil {
 		return nil
 	}
 	for _, address := range interfaceAddr {
+		//fmt.Printf("address : %v\n", address)
 		ipNet, isValidIpNet := address.(*net.IPNet)
 		if isValidIpNet && !ipNet.IP.IsLoopback() {
 			if ipNet.IP.To4() != nil {
@@ -348,6 +350,7 @@ func GetLocalIPs() (ips []net.IP) {
 			}
 		}
 	}
+	//fmt.Println("--- getLocalIPsEnd ---")
 	return ips
 }
 

@@ -147,8 +147,10 @@ func InitRedisConf(path string) error {
 	return nil
 }
 
-//初始化配置文件
+// InitViperConf 初始化配置文件
 func InitViperConf() error {
+	// confEnvPath = "./conf/dev"
+	// fmt.Printf("confEnvPath=%s\n", ConfEnvPath)
 	f, err := os.Open(ConfEnvPath + "/")
 	if err != nil {
 		return err
@@ -176,7 +178,7 @@ func InitViperConf() error {
 	return nil
 }
 
-//获取get配置信息
+// GetStringConf 获取get配置信息
 func GetStringConf(key string) string {
 	keys := strings.Split(key, ".")
 	if len(keys) < 2 {
@@ -190,7 +192,7 @@ func GetStringConf(key string) string {
 	return confString
 }
 
-//获取get配置信息
+// GetStringMapConf 获取get配置信息
 func GetStringMapConf(key string) map[string]interface{} {
 	keys := strings.Split(key, ".")
 	if len(keys) < 2 {

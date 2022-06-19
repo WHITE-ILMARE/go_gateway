@@ -27,6 +27,7 @@ func InitDBPool(path string) error {
 	DBMapPool = map[string]*sql.DB{}
 	GORMMapPool = map[string]*gorm.DB{}
 	for confName, DbConf := range DbConfMap.List {
+		// 仅仅是验证参数，还没有连接数据库，返回的dbpool是*DB类型，用于使用gorm连接数据库，并发安全
 		dbpool, err := sql.Open("mysql", DbConf.DataSourceName)
 		if err != nil {
 			return err
@@ -46,6 +47,7 @@ func InitDBPool(path string) error {
 		if err != nil {
 			return err
 		}
+		// 将中间变量dbpool和gorm连接都存起来
 		DBMapPool[confName] = dbpool
 		GORMMapPool[confName] = dbGorm
 	}

@@ -9,11 +9,10 @@ import (
 	"strings"
 )
 
-var ConfEnvPath string //配置文件夹
-var ConfEnv string     //配置环境名 比如：dev prod test
+var ConfEnvPath string // 配置文件夹路径，一直到具体配置文件的上一层
+var ConfEnv string     // 配置环境名 比如：dev prod test
 
-// 解析配置文件目录
-//
+// ParseConfPath 解析配置文件目录
 // 配置文件必须放到一个文件夹中
 // 如：config=conf/dev/base.json 	ConfEnvPath=conf/dev	ConfEnv=dev
 // 如：config=conf/base.json		ConfEnvPath=conf		ConfEnv=conf
@@ -25,7 +24,7 @@ func ParseConfPath(config string) error {
 	return nil
 }
 
-//获取配置环境名
+// GetConfEnv 获取配置环境名
 func GetConfEnv() string {
 	return ConfEnv
 }
